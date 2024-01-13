@@ -2,7 +2,6 @@ local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 -- nvim-tree
 keymap.set("n", "<leader>mm", ":NvimTreeFocus<CR>", opts)
-keymap.set("n", "<leader>mr", ":NvimTreeRefresh<CR>", opts)
 keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
 
 -- navigation
@@ -37,6 +36,8 @@ keymap.set("v", "<leader>p", '"_dP', opts)
 keymap.set("v", "<leader>y", '"+y', opts)
 keymap.set("n", "<leader>y", '"+y', opts)
 keymap.set("n", "<leader>Y", 'gg"+yG', opts)
+keymap.set("n", "<C-f>", ":silent !tmux neww tmux-sessionizer<CR>", opts)
+keymap.set("n", "<leader>x", ":!chmod +x %<CR>", opts)
 
 keymap.set("n", "<C-s>", ":w<CR>", opts)
 keymap.set("n", "Ï", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)

@@ -14,6 +14,7 @@ local config = function()
 		ensure_installed = {
 			"markdown",
 			"json",
+			"rust",
 			"javascript",
 			"typescript",
 			"yaml",

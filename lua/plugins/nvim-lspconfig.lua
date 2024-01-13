@@ -33,12 +33,22 @@ local config = function()
 			},
 		},
 	})
-
+	lspconfig.clangd.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+		filetypes = { "c", "cpp" },
+	})
 	-- json
 	lspconfig.jsonls.setup({
 		capabilities = capabilities,
 		on_attach = on_attach,
 		filetypes = { "json", "jsonc" },
+	})
+
+	lspconfig.marksman.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+		filetypes = { "markdown", "md", "mdx" },
 	})
 
 	-- python
@@ -65,15 +75,23 @@ local config = function()
 		filetypes = {
 			"typescript",
 			"typescriptreact",
+			"javascriptreact",
 		},
 		root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", ".git"),
+	})
+
+	lspconfig.gopls.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+
+		filetypes = { "go", "gomod" },
 	})
 
 	-- bash
 	lspconfig.bashls.setup({
 		capabilities = capabilities,
 		on_attach = on_attach,
-		filetypes = { "sh" },
+		filetypes = { "sh", "bash", "" },
 	})
 
 	lspconfig.emmet_ls.setup({
@@ -107,16 +125,11 @@ local config = function()
 		on_attach = on_attach,
 	})
 
-	lspconfig.mdx_analyzer.setup({
+	lspconfig.rust_analyzer.setup({
 		capabilities = capabilities,
 		on_attach = on_attach,
-		filetypes = {
-			"markdown",
-			"md",
-			"mdx",
-		},
+		filetypes = { "rust" },
 	})
-
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
 	local flake8 = require("efmls-configs.linters.flake8")
@@ -128,9 +141,14 @@ local config = function()
 	local shfmt = require("efmls-configs.formatters.shfmt")
 	local hadolint = require("efmls-configs.linters.hadolint")
 	local solhint = require("efmls-configs.linters.solhint")
+	local clang_format = require("efmls-configs.formatters.clang_format")
 
 	lspconfig.efm.setup({
 		filetypes = {
+			"c",
+			"cpp",
+			"bash",
+			"json",
 			"lua",
 			"python",
 			"json",
@@ -138,6 +156,7 @@ local config = function()
 			"sh",
 			"javascript",
 			"javascriptreact",
+			"rust",
 			"typescript",
 			"typescriptreact",
 			"svelte",
@@ -161,6 +180,8 @@ local config = function()
 				lua = { luacheck, stylua },
 				python = { flake8, black },
 				typescript = { eslint_d, prettierd },
+				cpp = { clang_format },
+				c = { clang_format },
 				json = { eslint_d, fixjson },
 				jsonc = { eslint_d, fixjson },
 				sh = { shellcheck, shfmt },
@@ -169,7 +190,6 @@ local config = function()
 				typescriptreact = { eslint_d, prettierd },
 				svelte = { eslint_d, prettierd },
 				vue = { eslint_d, prettierd },
-				markdown = { prettierd, mdx_analyzer },
 				docker = { hadolint, prettierd },
 				solidity = { solhint },
 				html = { prettierd },
